@@ -148,5 +148,19 @@ public class CourseLibraryRepository : ICourseLibraryRepository
     {
         return (await _context.SaveChangesAsync() >= 0);
     }
+
+    public async Task<IEnumerable<Author>> GetAuthorsAsync(string? mainCategory, string? searchQuery)
+    {
+        if (string.IsNullOrWhiteSpace(mainCategory))
+        {
+            return await GetAuthorsAsync();
+        }
+
+        mainCategory = mainCategory.Trim();
+
+        return await _context.Authors
+            .Where(a => a.MainCategory == mainCategory)
+            .ToListAsync();
+    }
 }
 
