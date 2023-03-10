@@ -55,10 +55,12 @@ internal static class StartupHelperExtensions
         })
         ;
 
-        builder.Services.AddScoped<ICourseLibraryRepository, 
+        builder.Services.AddScoped<ICourseLibraryRepository,
             CourseLibraryRepository>();
 
         builder.Services.AddTransient<IPropertyMappingService, PropertyMappingService>();
+
+        builder.Services.AddTransient<IPropertyCheckerService, PropertyCheckerService>();
 
         builder.Services.AddDbContext<CourseLibraryContext>(options =>
         {
@@ -73,11 +75,12 @@ internal static class StartupHelperExtensions
 
     // Configure the request/response pipelien
     public static WebApplication ConfigurePipeline(this WebApplication app)
-    { 
+    {
         if (app.Environment.IsDevelopment())
         {
             app.UseDeveloperExceptionPage();
-        } else
+        }
+        else
         {
             app.UseExceptionHandler(appBuilder =>
             {
@@ -88,12 +91,12 @@ internal static class StartupHelperExtensions
                 });
             });
         }
- 
+
         app.UseAuthorization();
 
-        app.MapControllers(); 
-         
-        return app; 
+        app.MapControllers();
+
+        return app;
     }
 
     public static async Task ResetDatabaseAsync(this WebApplication app)
@@ -114,6 +117,6 @@ internal static class StartupHelperExtensions
                 var logger = scope.ServiceProvider.GetRequiredService<ILogger>();
                 logger.LogError(ex, "An error occurred while migrating the database.");
             }
-        } 
+        }
     }
 }

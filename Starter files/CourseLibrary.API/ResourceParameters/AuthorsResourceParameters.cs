@@ -10,12 +10,15 @@
 
         private int _pageSize;
 
-        public int PageSize {
+        public int PageSize
+        {
             get => _pageSize;
-            set => _pageSize = (value > maxPageSize) ? maxPageSize: value;
-        
+            set => _pageSize = (value > maxPageSize) ? maxPageSize : value;
+
         }
 
         public string OrderBy { get; set; } = "Name";
+
+        public string? Fields { get; set; }
     }
 }
